@@ -1,8 +1,1 @@
-APP URL: https://copy-of-finpersona-ai-assistant-953699060821.us-west1.run.app
-API: AIzaSyBOe8CFaOcZ2lJDmLDOAD6X_cj4hobCD10
 
-APP URL: https://finpersona-ai-assistant-953699060821.us-west1.run.app
-API: AIzaSyCngOx7XN4gM5lcNpnoiNqNKvNzzii3pow
-
-AIzaSyCmtJdXJtH86nPdaHp7p4bHNOm9u_c1i7s
-https://finpersona-ai-assistant-953699060821.us-west1.run.app
