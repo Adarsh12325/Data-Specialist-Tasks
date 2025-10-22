@@ -26,3 +26,64 @@ for metric in metrics:
     knn.fit(X, y)
     pred = knn.predict(query)[0]
     print(f"{metric.capitalize()} Prediction: {fruit_map[pred]}")
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+
+data = np.array([
+    [150, 7, 0],
+    [160, 8, 0],
+    [170, 7, 0],
+    [130, 6, 1],
+    [140, 5, 1],
+    [135, 6, 1],
+    [180, 9, 2],
+    [190, 10, 2],
+    [200, 10, 2]
+])
+
+X = data[:, :-1]
+Y = data[:, -1]
+query_point = np.array([[165, 8]])
+k = 3
+metrics = ["euclidean", "manhattan", "cosine"]
+fruit_classes = {0: "Apple", 1: "Orange", 2: "Banana"}
+
+for metric in metrics:
+    knn = KNeighborsClassifier(n_neighbors=k, metric=metric)
+    knn.fit(X, Y)
+    distances, neighbors = knn.kneighbors(query_point)
+    print(f"Metric: {metric.capitalize()}")
+    print(f"Distances: {distances[0]}")
+    top_k_neighbors = sorted(zip(distances[0], neighbors[0]), key=lambda x: x[0])
+    top_k_with_labels = [(dist, idx, fruit_classes[Y[idx]]) for dist, idx in top_k_neighbors]
+    print(f"Top-k Neighbors: {top_k_with_labels}")
+    prediction = knn.predict(query_point)[0]
+    print(f"Prediction: {fruit_classes[prediction]} (Class {prediction})\n")
+    plt.figure(figsize=(8, 6))
+    colors = ['r', 'g', 'b']
+    labels = ['Apple', 'Orange', 'Banana']
+    for i in range(3):
+        class_data = X[Y == i]
+        plt.scatter(class_data[:, 0], class_data[:, 1], color=colors[i], label=labels[i])
+    plt.scatter(query_point[0, 0], query_point[0, 1], color='black', marker='*', s=200, label='Query Point')
+    for _, idx, label in top_k_with_labels:
+        plt.scatter(X[idx, 0], X[idx, 1], color='yellow', edgecolors='black', s=120)
+    plt.scatter(query_point[0, 0], query_point[0, 1], color=colors[prediction], marker='*', s=250, label=f'Predicted: {labels[prediction]}')
+    plt.title(f"KNN Classification with {metric.capitalize()} Distance")
+    plt.xlabel("Weight (g)")
+    plt.ylabel("Sweetness")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
