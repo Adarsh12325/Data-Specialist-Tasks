@@ -1,1 +1,28 @@
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
 
+# Dataset: [Weight, Sweetness, Label]
+data = np.array([
+    [150, 7, 0], 
+    [160, 8, 0], 
+    [170, 7, 0],  # Apples
+    [130, 6, 1], 
+    [140, 5, 1], 
+    [135, 6, 1],  # Oranges
+    [180, 9, 2], 
+    [190, 10, 2], 
+    [200, 10, 2] # Bananas
+])
+
+X= data[:, :-1] # Features 
+y= data[:, -1]  # Labels
+query = np.array([[165, 8]])  # New fruit
+
+metrics = ["euclidean"]
+fruit_map = {0: "Apple", 1: "Orange", 2: "Banana"}
+
+for metric in metrics:
+    knn = KNeighborsClassifier(n_neighbors=3, metric=metric)
+    knn.fit(X, y)
+    pred = knn.predict(query)[0]
+    print(f"{metric.capitalize()} Prediction: {fruit_map[pred]}")
